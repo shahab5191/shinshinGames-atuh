@@ -3,11 +3,12 @@ import { Model, DataTypes } from "sequelize"
 import { sequelize } from "../db/connect"
 
 export class User extends Model {
-  declare id: number
+  declare id: string
   declare email: string
   declare firstName: string
   declare userName: string
   declare salt: string
+  declare password: string
 }
 User.init(
   {

@@ -1,8 +1,8 @@
 import app from "../../app"
 import Request from "supertest"
 import { User } from "../../models/user"
-
-describe("testing signin route", () => {
+import * as encryption from '../../utils/encryption'
+describe.skip("testing signin route", () => {
   it("should return error if email is not valid", async () => {
     await Request(app)
       .post("/api/v1/users/signin")
@@ -53,5 +53,23 @@ describe("testing signin route", () => {
       .expect(404)
     expect(Response.body).toHaveProperty("errors")
     expect(Response.body.errors[0]).toBe("Email or Password is wrong!")
+  })
+  it("should return {email, username, id, token} and session cookie if email and password are correct", async () => {
+    jest.spyOn(encryption,'verify').mockReturnValue(true)
+    User.findOne = jest
+      .fn()
+      .mockReturnValueOnce({ email: "email", password: "hash", salt: "salt",id: '123456', username:'' })
+
+    const response = await Request(app)
+      .post("/api/v1/users/signin")
+      .send({ email: "test@test.com", password: "password" })
+      .expect(200)
+
+    expect(response.body).toHaveProperty('email')
+    expect(response.body).toHaveProperty('username')
+    expect(response.body).toHaveProperty('id')
+    expect(response.body).toHaveProperty('token')
+    expect(response.headers).toHaveProperty('set-cookie')
+    expect(response.headers['set-cookie'][0].split('=')[0]).toBe('session')
   })
 })

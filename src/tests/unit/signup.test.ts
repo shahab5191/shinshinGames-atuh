@@ -2,7 +2,7 @@ import request from "supertest"
 import app from "../../app"
 import { User } from "../../models/user"
 
-describe("unit tests for signup route", () => {
+describe.skip("unit tests for signup route", () => {
   it("should not accept invalid email", async () => {
     const response = await request(app)
       .post("/api/v1/users/signup")

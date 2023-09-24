@@ -1,0 +1,20 @@
+apiVersion: skaffold/v4beta6
+kind: Config
+deploy:
+  kubectl: {}
+manifests:
+  rawYaml:
+    - ./shinshin-infra/infra/k8s/*
+build:
+  local:
+    push: false
+  artifacts:
+    - image: shahab5191/shinshingame-auth
+      context: ./
+      docker:
+        dockerfile: Dockerfile
+        target: dev
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
