@@ -1,9 +1,13 @@
 import express, { NextFunction, Request, Response } from "express"
 import { User } from "../models/user"
 import { body, validationResult } from "express-validator"
-import { hash } from "../utils/encryption"
+import { createToken, hash } from "../utils/encryption"
 import { SError } from "../utils/serror"
-import { EMAIL_IN_USE, EMAIL_NOT_VALID, PASSWORD_NOT_VALID } from "../utils/error-messages"
+import {
+  EMAIL_IN_USE,
+  EMAIL_NOT_VALID,
+  PASSWORD_NOT_VALID,
+} from "../utils/error-messages"
 const router = express.Router()
 
 router.post(
@@ -44,6 +48,12 @@ router.post(
       password: hashResult.hashedString,
       salt: hashResult.salt,
     })
+    const token = createToken({
+      email,
+      id: newUser.id,
+      username: newUser.userName,
+    })
+    req.session = { jwt: token }
     res.status(201).send({ id: newUser.id, email: newUser.email })
   }
 )
