@@ -1,0 +1,7 @@
+export const INTERNAL_ERROR = "Internal Error"
+export const EMAIL_IN_USE = "Email already exists"
+export const EMAIL_NOT_VALID = "Email is not valid"
+export const PASSWORD_NOT_VALID = "Password must be 8 to 20 characters long"
+export const EMAIL_OR_PASSWORD_NOT_VALID = "Email or Password is not valid"
+export const EMAIL_OR_PASSWORD_WRONG = "Email or Password is wrong!"
+export const NOT_LOGGED_IN = "You are not logged in!"

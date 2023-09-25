@@ -5,10 +5,11 @@ import cookieSession from "cookie-session"
 import { signupRouter } from "./routes/signup"
 import { signinRouter } from "./routes/signin"
 import { currentUserRoute } from "./routes/current-user"
-import { errorHandler } from "./middleware/error-handler"
-import { SError } from "./utils/serror"
-import { INTERNAL_ERROR } from "./utils/error-messages"
+
 import { authorize } from "./middleware/authorize"
+import { SError } from "./shinshingame-shared/utils/serror"
+import { INTERNAL_ERROR } from "./shinshingame-shared/utils/error-messages"
+import { errorHandler } from "./shinshingame-shared/middleware/error-handler"
 
 const app: Application = express()
 if (process.env.JWT_SECRET === undefined) {

@@ -2,12 +2,9 @@ import express, { NextFunction, Request, Response } from "express"
 import { User } from "../models/user"
 import { body, validationResult } from "express-validator"
 import { createToken, hash } from "../utils/encryption"
-import { SError } from "../utils/serror"
-import {
-  EMAIL_IN_USE,
-  EMAIL_NOT_VALID,
-  PASSWORD_NOT_VALID,
-} from "../utils/error-messages"
+import { EMAIL_IN_USE, EMAIL_NOT_VALID, PASSWORD_NOT_VALID } from "../shinshingame-shared/utils/error-messages"
+import { SError } from "../shinshingame-shared/utils/serror"
+
 const router = express.Router()
 
 router.post(

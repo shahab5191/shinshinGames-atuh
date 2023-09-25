@@ -1,7 +1,7 @@
 "use strict"
 import { pbkdf2Sync, randomBytes } from "node:crypto"
-import { SError } from "./serror"
-import { INTERNAL_ERROR } from "./error-messages"
+import { SError } from "../shinshingame-shared/utils/serror"
+import { INTERNAL_ERROR } from "../shinshingame-shared/utils/error-messages"
 import jwt from "jsonwebtoken"
 interface CreateTokenParams {
   id: string
