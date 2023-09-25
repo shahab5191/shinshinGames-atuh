@@ -54,7 +54,7 @@ router.post(
       username: newUser.userName,
     })
     req.session = { jwt: token }
-    res.status(201).send({ id: newUser.id, email: newUser.email })
+    return res.status(201).send({ id: newUser.id, email: newUser.email })
   }
 )
 export { router as signupRouter }

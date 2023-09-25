@@ -55,5 +55,11 @@ export const createToken = (params: CreateTokenParams) => {
 }
 
 export const validateToken = (token: string) => {
-  return jwt.verify(token,process.env.JWT_SECRET!)
+  let verfiedToken
+  try {
+    verfiedToken = jwt.verify(token, process.env.JWT_SECRET!)
+  } catch (error) {
+    return null
+  }
+  return verfiedToken
 }
