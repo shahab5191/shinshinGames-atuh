@@ -10,11 +10,13 @@ import { authorize } from "./middleware/authorize"
 import { SError } from "./shinshingame-shared/utils/serror"
 import { INTERNAL_ERROR } from "./shinshingame-shared/utils/error-messages"
 import { errorHandler } from "./shinshingame-shared/middleware/error-handler"
+import { signoutRouter } from "./routes/signout"
 
 const app: Application = express()
 if (process.env.JWT_SECRET === undefined) {
   throw new SError({ msg: [INTERNAL_ERROR], status: 500 })
 }
+
 app.set("trust proxy", true)
 app.use(express.json())
 app.use(morgan("tiny"))
@@ -28,8 +30,11 @@ app.use(
 
 app.use(signupRouter)
 app.use(signinRouter)
+app.use(signoutRouter)
+
 app.use(authorize)
 app.use(currentUserRoute)
+
 app.all("*", (_, res) => {
   res.status(404).send({ error: "404 - Address was not found!" })
 })

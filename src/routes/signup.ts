@@ -2,8 +2,13 @@ import express, { NextFunction, Request, Response } from "express"
 import { User } from "../models/user"
 import { body, validationResult } from "express-validator"
 import { createToken, hash } from "../utils/encryption"
-import { EMAIL_IN_USE, EMAIL_NOT_VALID, PASSWORD_NOT_VALID } from "../shinshingame-shared/utils/error-messages"
+import {
+  EMAIL_IN_USE,
+  EMAIL_NOT_VALID,
+  PASSWORD_NOT_VALID,
+} from "../shinshingame-shared/utils/error-messages"
 import { SError } from "../shinshingame-shared/utils/serror"
+import { sendMessage } from "../shinshingame-shared/rabbitmq/producer"
 
 const router = express.Router()
 
@@ -51,6 +56,12 @@ router.post(
       username: newUser.userName,
     })
     req.session = { jwt: token }
+
+    await sendMessage(
+      { message: { id: newUser.id, email: newUser.email }, service: "auth" },
+      "userdata"
+    )
+
     return res.status(201).send({ id: newUser.id, email: newUser.email })
   }
 )

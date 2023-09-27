@@ -2,9 +2,11 @@ import express, { NextFunction, Request, Response } from "express"
 import { body, validationResult } from "express-validator"
 import { User } from "../models/user"
 import { createToken, verify } from "../utils/encryption"
-import { EMAIL_OR_PASSWORD_NOT_VALID, EMAIL_OR_PASSWORD_WRONG } from "../shinshingame-shared/utils/error-messages"
+import {
+  EMAIL_OR_PASSWORD_NOT_VALID,
+  EMAIL_OR_PASSWORD_WRONG,
+} from "../shinshingame-shared/utils/error-messages"
 import { SError } from "../shinshingame-shared/utils/serror"
-
 
 const router = express.Router()
 
@@ -40,10 +42,15 @@ router.post(
       username: foundUser.userName,
     })
 
-    req.session = {jwt: token}
+    req.session = { jwt: token }
     return res
       .status(200)
-      .send({ id: foundUser.id, email, username: foundUser.userName? foundUser.userName : '', token })
+      .send({
+        id: foundUser.id,
+        email,
+        username: foundUser.userName ? foundUser.userName : "",
+        token,
+      })
   }
 )
 
